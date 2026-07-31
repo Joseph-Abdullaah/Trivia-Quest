@@ -3,6 +3,7 @@
 @theme inline {
   --font-head: var(--font-head);
   --font-sans: var(--font-sans);
+  --font-body: var(--font-sans);
   --radius: var(--radius);
 
   --shadow-xs: 1px 1px 0 0 var(--border);
@@ -10,7 +11,7 @@
   --shadow: 3px 3px 0 0 var(--border);
   --shadow-md: 4px 4px 0 0 var(--border);
   --shadow-lg: 6px 6px 0 0 var(--border);
-  --shadow-xl: 10px 10px 0 1px var(--border);
+  --shadow-xl: 8px 8px 0 0 var(--border);
   --shadow-2xl: 16px 16px 0 1px var(--border);
 
   --color-background: var(--background);
@@ -22,6 +23,7 @@
   --color-primary-hover: var(--primary-hover);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
@@ -31,28 +33,49 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Playfield accents — the six game-mode / bento colours. */
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-grape: var(--grape);
+  --color-teal: var(--teal);
+  --color-bubblegum: var(--bubblegum);
+  --color-cobalt: var(--cobalt);
+
+  /* The accent tiles keep their colour in both themes, so anything sitting on
+     them needs ink and chip surfaces that do NOT flip with the theme. */
+  --color-on-accent: #14161a;
+  --color-on-accent-surface: #ffffff;
 }
 
 :root {
-  --radius: 0;
-  --background: #fff7e8;
-  --foreground: #000;
-  --card: #fff;
-  --card-foreground: #000;
-  --primary: #ffdc58;
-  --primary-hover: #ffd12e;
-  --primary-foreground: #000;
-  --secondary: #000;
-  --secondary-foreground: #fff;
-  --muted: #efe7d6;
-  --muted-foreground: #6b6355;
+  --radius: 0.75rem;
+  --background: #fcf3e3;
+  --foreground: #14161a;
+  --card: #ffffff;
+  --card-foreground: #14161a;
+  --primary: #ffc834;
+  --primary-hover: #f5b911;
+  --primary-foreground: #14161a;
+  --secondary: #14161a;
+  --secondary-foreground: #fcf3e3;
+  --secondary-hover: #24272d;
+  --muted: #efe6d3;
+  --muted-foreground: #4b4e54;
   --accent: #ffe7a3;
-  --accent-foreground: #000;
-  --destructive: #e63946;
-  --destructive-foreground: #fff;
-  --border: #000;
-  --input: #fff;
-  --ring: #000;
+  --accent-foreground: #14161a;
+  --destructive: #ff5a5f;
+  --destructive-foreground: #14161a;
+  --border: #14161a;
+  --input: #ffffff;
+  --ring: #14161a;
+
+  --success: #22c55e;
+  --success-foreground: #14161a;
+  --grape: #8b7fff;
+  --teal: #2ec4b6;
+  --bubblegum: #ff6fa5;
+  --cobalt: #4d96ff;
 }
 
 .dark {
@@ -60,18 +83,110 @@
   --foreground: #f5f0e6;
   --card: #262320;
   --card-foreground: #f5f0e6;
-  --primary: #ffdc58;
-  --primary-hover: #ffd12e;
-  --primary-foreground: #000;
-  --secondary: #3a352f;
-  --secondary-foreground: #f5f0e6;
+  --primary: #ffc834;
+  --primary-hover: #f5b911;
+  --primary-foreground: #14161a;
+  --secondary: #f5f0e6;
+  --secondary-foreground: #14161a;
+  --secondary-hover: #e2dbcd;
   --muted: #2e2a24;
   --muted-foreground: #b3ac9e;
   --accent: #38342b;
   --accent-foreground: #f5f0e6;
-  --destructive: #ff6b6b;
-  --destructive-foreground: #1a1815;
-  --border: #000;
+  --destructive: #ff5a5f;
+  --destructive-foreground: #14161a;
+  --border: #000000;
   --input: #262320;
-  --ring: #ffdc58;
+  --ring: #ffc834;
+
+  --success: #22c55e;
+  --success-foreground: #14161a;
+  --grape: #8b7fff;
+  --teal: #2ec4b6;
+  --bubblegum: #ff6fa5;
+  --cobalt: #4d96ff;
+}
+
+/* Decorative shapes drifting behind the hero. `--tq-rotate` lets a shape keep
+   its static tilt while the keyframes animate only the vertical drift. */
+@keyframes tq-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--tq-rotate, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--tq-rotate, 0deg));
+  }
+}
+
+@keyframes tq-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.035);
+  }
+}
+
+@keyframes tq-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes tq-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-7px);
+  }
+  50% {
+    transform: translateX(7px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+}
+
+@keyframes tq-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* The Settings screen's animations toggle, and the OS-level preference, both
+   silence the decorative motion. The loading spinner is an affordance rather
+   than decoration, so it keeps spinning either way. */
+[data-animations="off"] [class*="animate-[tq-"] {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[tq-"] {
+    animation: none;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
 }
